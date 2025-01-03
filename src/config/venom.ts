@@ -31,6 +31,16 @@ const initClient = async () => {
   }
 };
 
+const sendImage = async (to: string, imagePath: string, caption?: string) => {
+  try {
+    const client = getClient();
+    await client.sendImage(to, imagePath, 'image', caption || '');
+    console.log(`Imagem enviada com sucesso para ${to}`);
+  } catch (error) {
+    console.error('Erro ao enviar a imagem:', error);
+  }
+};
+
 const getClient = (): venom.Whatsapp => {
   if (!client) {
     throw new Error('Venom client não inicializado. Chame initClient primeiro.');

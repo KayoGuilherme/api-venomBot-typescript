@@ -7,10 +7,20 @@ export class SendMessageUseCase {
     @inject(SendMessageService) private sendMessageService: SendMessageService
   ) {}
 
-  async execute(to: string, message: string) {
-    if (!to || !message) {
-      throw new Error("Número de telefone e mensagem são obrigatórios.");
+  async execute(to: string, message: string, imagePath?: string, caption?: string) {
+    if (!to) {
+      throw new Error("Número de telefone é obrigatório.");
     }
+
+    if (imagePath) {
+      return await this.sendMessageService.sendImage(to, imagePath, caption);
+    }
+
+    if (!message) {
+      throw new Error("Mensagem de texto é obrigatória se não houver imagem.");
+    }
+
+
     return await this.sendMessageService.sendMessage(to, message);
   }
 }
