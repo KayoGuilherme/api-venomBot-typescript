@@ -1,0 +1,27 @@
+{
+  "name": "704venonbot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@puppeteer/browsers": "^2.6.1",
+    "@types/body-parser": "^1.19.5",
+    "express": "^4.21.2",
+    "puppeteer": "^23.11.1",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.8.0",
+    "venom-bot": "^5.3.0"
+  }
+}

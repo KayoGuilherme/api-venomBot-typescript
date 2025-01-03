@@ -1,0 +1,5 @@
+.env
+/test-venom.ts
+/tokens
+/sessions
+/node_modules
