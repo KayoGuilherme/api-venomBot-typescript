@@ -4,27 +4,26 @@ import { initClient, getClient } from "../../../config/venom";
 @injectable()
 export class SendContactService {
   async sendContact(to: string, contactsId: string | string[], name?: string) {
-    // Validação no Service
-    if (!to.match(/^\d+@c\.us$/)) {
-      throw new Error("Número do destinatário inválido.");
-    }
+    // Validar número do destinatário
+    const formattedNumber = to.includes("@") ? to : `${to}@c.us`;
 
-    if (typeof contactsId === "string" && !contactsId.match(/^\d+@c\.us$/)) {
-      throw new Error("ID de contato inválido.");
-    }
+    // Garantir que contactsId está no formato correto
+    const formattedContacts = Array.isArray(contactsId)
+      ? contactsId.map((id) => (id.includes("@") ? id : `${id}@c.us`))
+      : contactsId.includes("@")
+      ? contactsId
+      : `${contactsId}@c.us`;
 
-    if (Array.isArray(contactsId)) {
-      contactsId.forEach((id) => {
-        if (!id.match(/^\d+@c\.us$/)) {
-          throw new Error(`ID de contato inválido: ${id}`);
-        }
-      });
-    }
+    try {
+      await initClient();
+      const client = getClient();
 
-    await initClient();
-    const client = getClient();
-    const result = await client.sendContactVcard(to, contactsId, name || "Contato");
-    console.log("Contato enviado com sucesso:", result);
-    return result;
+      const result = await client.sendContactVcard(formattedNumber, formattedContacts, name || "Contato");
+      console.log("Contato enviado com sucesso:", result);
+      return result;
+    } catch (error) {
+      console.error("Erro ao enviar contato:", error);
+      throw new Error("Erro ao enviar contato.");
+    }
   }
 }
